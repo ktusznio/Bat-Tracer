@@ -34,7 +34,7 @@
         throw error if error
         if not tweets.length
           callback = (error) -> throw error if error
-          new Tweet(body: 'derp', author: 'kamil').save(callback)
+          new BatTweets.Tweet(body: 'derp', author: 'kamil').save(callback)
         return false
     submitSearch: =>
       $.ajax 'http://search.twitter.com/search.json?q=' + encodeURI(BatTweets.query),
