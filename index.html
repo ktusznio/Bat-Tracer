@@ -2,27 +2,46 @@
 <html lang="en">
 <head>
   <title>BatTweets</title>
-
-  <script src="/batman/coffee-script.js" type="text/javascript"></script>
   <script src="/batman/es5-shim.js" type="text/javascript"></script>
-  <script src="/batman/dist/batman.js" type="text/javascript"></script>
-
-  <script src="bat_tweets.js" type="text/javascript"></script>
-
+  <script src="/batman/coffee-script.js" type="text/javascript"></script>
+  <script src="/batman/batman.js" type="text/javascript"></script>
+  <script src="/batman/batman.solo.js" type="text/javascript"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.0.min.css">
 </head>
-
 <body>
-  
-  <div data-yield="main"></div>
-  <div id="batman">
-    <span>BatTweets</span>
-    <code>powered by</code><br />
-    <img src="/resources/batman.png" />
-    <input type="text" data-bind="BatTweets.mission"/>
+  <div class="container">
+    <h1>Bat Tweets</h1>
+    <form data-event-submit="controllers.app.submitSearch">
+      <input placeholder="Search the bat tweets..." data-bind="BatTweets.query" />
+    </form>
+    <blockquote data-foreach-tweet="BatTweets.Tweet.all">
+      <p data-bind="tweet.body"></p>
+      <small data-bind="tweet.author"></small>
+    </blockquote>
   </div>
-  <script type="text/javascript">
-    BatTweets.run();
+  <script type="text/coffeescript">
+  class BatTweets extends Batman.App
+    @global yes
+    @root 'app#index'
+    query: ''
+  class BatTweets.Tweet extends Batman.Model
+    @persist Batman.LocalStorage
+  class BatTweets.AppController extends Batman.Controller
+    newFilter: null
+    index: =>
+      BatTweets.Tweet.load (error, tweets) ->
+        throw error if error
+        if not tweets.length
+          callback = (error) -> throw error if error
+          new Tweet(body: 'derp', author: 'kamil').save(callback)
+        return false
+    submitSearch: =>
+      $.ajax 'http://search.twitter.com/search.json?q=' + encodeURI(BatTweets.query),
+        success: (data) ->
+          console.log 'success', data
+      return false
+  BatTweets.run();
   </script>
 </body>
 </html>

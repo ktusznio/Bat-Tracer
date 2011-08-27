@@ -13,7 +13,6 @@
     function BatTweets() {
       BatTweets.__super__.constructor.apply(this, arguments);
     }
-    BatTweets.set('mission', 'fight crime');
     BatTweets.global(true);
     BatTweets.controller('app');
     BatTweets.root('app#index');

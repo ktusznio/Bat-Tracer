@@ -1,7 +1,7 @@
 {
-  "author": "You <you@domain.com>",
+  "author": "Kamil Tusznio <kamil.tusznio@gmail.com>",
   "name": "BatTweets",
-  "description": "A new and exciting application using Batman",
+  "description": "A simple Twitter search client using Batman.js",
   "version": "0.1.0",
   "main": "build/app.js",
   "engines": {
