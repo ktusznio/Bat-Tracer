@@ -48,7 +48,6 @@
       $.ajax 'http://search.twitter.com/search.json?q=' + encodeURI(Tracer.query),
         dataType: 'jsonp'
         success: (data) ->
-          Tracer.set 'status', "Found #{data.results.length} tweets."
           for obj in data.results
             tweet = new Tracer.Tweet obj
             tweet.save (error, record) ->
