@@ -1,6 +1,6 @@
 {
   "author": "Kamil Tusznio <kamil.tusznio@gmail.com>",
-  "name": "BatTweets",
+  "name": "BatTracer",
   "description": "A simple Twitter search client using Batman.js",
   "version": "0.1.0",
   "main": "build/app.js",
