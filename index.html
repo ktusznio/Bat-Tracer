@@ -41,7 +41,7 @@
   class Tracer.Tweet extends Batman.Model
     @persist Batman.LocalStorage
   class Tracer.AppController extends Batman.Controller
-    index: -> false
+    index: -> @render false
     submitSearch: =>
       Tracer.set 'hasSearched', yes
       Tracer.Tweet.all.forEach (t) -> t.destroy()
