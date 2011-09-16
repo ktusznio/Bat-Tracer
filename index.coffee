@@ -8,7 +8,7 @@ class Tracer.AppController extends Batman.Controller
   index: -> @render false
   submitSearch: =>
     Tracer.set 'hasSearched', yes
-    Tracer.Tweet.all.forEach (t) -> t.destroy()
+    Tracer.Tweet.all?.forEach (t) -> t.destroy()
     $.ajax 'http://search.twitter.com/search.json?q=' + encodeURI(Tracer.query),
       dataType: 'jsonp'
       success: (data) ->

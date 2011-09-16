@@ -639,7 +639,7 @@
       if (isGlobal === false) {
         return;
       }
-      return container[this.name] = this;
+      return container[$functionName(this)] = this;
     };
     BatmanObject.classMixin = function() {
       return $mixin.apply(null, [this].concat(__slice.call(arguments)));
@@ -2197,7 +2197,7 @@
         options = {};
       }
       if (!this.prototype._batman.getAll('storage').length) {
-        throw new Error("Can't load model " + this.name + " without any storage adapters!");
+        throw new Error("Can't load model " + ($functionName(this)) + " without any storage adapters!");
       }
       this.loading();
       return this.prototype._doStorageOperation('readAll', options, __bind(function(err, records) {
