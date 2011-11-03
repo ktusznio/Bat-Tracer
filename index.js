@@ -24,6 +24,12 @@
       Tweet.__super__.constructor.apply(this, arguments);
     }
     Tweet.persist(Batman.LocalStorage);
+    Tweet.destroyAll = function() {
+      var _ref;
+      return (_ref = this.get('all')) != null ? _ref.forEach(function(t) {
+        return t.destroy();
+      }) : void 0;
+    };
     return Tweet;
   })();
   Tracer.AppController = (function() {
@@ -33,24 +39,20 @@
       AppController.__super__.constructor.apply(this, arguments);
     }
     AppController.prototype.index = function() {
+      Tracer.Tweet.destroyAll();
       return this.render(false);
     };
     AppController.prototype.submitSearch = function() {
-      var _ref;
       Tracer.set('hasSearched', true);
-      if ((_ref = Tracer.Tweet.all) != null) {
-        _ref.forEach(function(t) {
-          return t.destroy();
-        });
-      }
-      $.ajax('http://search.twitter.com/search.json?q=' + encodeURI(Tracer.query), {
+      Tracer.Tweet.destroyAll();
+      return $.ajax('http://search.twitter.com/search.json?q=' + encodeURI(Tracer.query), {
         dataType: 'jsonp',
         success: function(data) {
-          var obj, tweet, _i, _len, _ref2, _results;
-          _ref2 = data.results;
+          var obj, tweet, _i, _len, _ref, _results;
+          _ref = data.results;
           _results = [];
-          for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-            obj = _ref2[_i];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            obj = _ref[_i];
             tweet = new Tracer.Tweet(obj);
             _results.push(tweet.save(function(error, record) {
               if (error) {
@@ -61,7 +63,6 @@
           return _results;
         }
       });
-      return false;
     };
     return AppController;
   })();
